@@ -67,10 +67,17 @@ func main() {
 		panic(err)
 	}
 
+	var host string
+	switch env := os.Getenv("DEPLOY_ENVIRONMENT"); env {
+	case "compose":
+		host = "receiver"
+	default:
+		host = "localhost"
+	}
+
 	emitter := wordEmitter{
 		wordList: wordList,
-		// host:     "127.0.0.1",
-		host:      "receiver",
+		host:      host,
 		port:      "9988",
 		connType:  "tcp",
 		frequency: 1,

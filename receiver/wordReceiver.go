@@ -147,10 +147,17 @@ func (receiver *wordReceiver) run() {
 }
 
 func main() {
+	var host string
+	switch env := os.Getenv("DEPLOY_ENVIRONMENT"); env {
+	case "compose":
+		host = "receiver"
+	default:
+		host = "localhost"
+	}
+
 	receiver := wordReceiver{
 		wordStats: make(map[string]wordStat),
-		// host:       "127.0.0.1",
-		host:           "receiver",
+		host:           host,
 		port:           "9988",
 		cliPort:        "8899",
 		serverType:     "tcp",
