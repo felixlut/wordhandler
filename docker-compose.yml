@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  receiver:
+    build: ./receiver
+    # image: receiver
+    expose:
+      - 9988
+    ports:
+    - "8899:8899"
+  emitter:
+    # image: emitter
+    build: ./emitter
