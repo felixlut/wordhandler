@@ -29,4 +29,6 @@ spec:
           name: emitter
           resources: {}
       restartPolicy: Always
+      imagePullSecrets:
+      - name: regcred
 status: {}
