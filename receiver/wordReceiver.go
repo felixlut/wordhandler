@@ -124,7 +124,6 @@ func (receiver *wordReceiver) catchWord(connection net.Conn) {
 
 func (receiver *wordReceiver) runFlusher(wg *sync.WaitGroup) {
 	defer wg.Done()
-
 	for {
 		time.Sleep(time.Duration(receiver.flushFrequency) * time.Second)
 		for key, val := range receiver.wordStats {
@@ -149,7 +148,7 @@ func (receiver *wordReceiver) run() {
 func main() {
 	var host string
 	switch env := os.Getenv("DEPLOY_ENVIRONMENT"); env {
-	case "compose":
+	case "compose", "kubernetes":
 		host = "receiver"
 	default:
 		host = "localhost"

@@ -24,7 +24,7 @@ spec:
         io.kompose.service: receiver
     spec:
       containers:
-        - image: receiver:latest
+        - image: ghcr.io/felixlut/wordhandler/receiver:kubernetes
           imagePullPolicy: IfNotPresent
           name: receiver
           ports:
