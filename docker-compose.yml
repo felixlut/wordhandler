@@ -1,8 +1,6 @@
 version: "3.8"
 services:
   receiver:
-    labels:
-      kompose.service.type: LoadBalancer
     build: ./receiver
     # image: receiver
     expose:

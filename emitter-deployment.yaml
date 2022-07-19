@@ -25,6 +25,9 @@ spec:
     spec:
       containers:
         - image: ghcr.io/felixlut/wordhandler/emitter:kubernetes
+          env:
+            - name: DEPLOY_ENVIRONMENT
+              value: kubernetes
           name: emitter
           resources: {}
       restartPolicy: Always
