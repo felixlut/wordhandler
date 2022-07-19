@@ -36,18 +36,21 @@ type wordEmitter struct {
 }
 
 func (emitter wordEmitter) run() {
-	for {
+	retryAttempts := 0
+	for retryAttempts < 10 {
 		time.Sleep(time.Duration(emitter.frequency) * time.Second)
 
 		connection, err := net.Dial(emitter.connType, emitter.host+":"+emitter.port)
 		if err != nil {
-			fmt.Printf("Failed to establish dial connection. Retry in %d seconds \n", emitter.retryTime)
+			fmt.Printf("Failed to establish dial connection (%d attempts). Retry in %d seconds \n", retryAttempts, emitter.retryTime)
 			fmt.Println(err)
 			time.Sleep(time.Duration(emitter.retryTime) * time.Second)
+			retryAttempts++
 			continue
 		}
 		emitter.emitWord(connection)
 		connection.Close()
+		retryAttempts = 0
 	}
 }
 
@@ -76,7 +79,7 @@ func main() {
 	}
 
 	emitter := wordEmitter{
-		wordList: wordList,
+		wordList:  wordList,
 		host:      host,
 		port:      "9988",
 		connType:  "tcp",
