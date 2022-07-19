@@ -39,7 +39,6 @@ func (emitter wordEmitter) run() {
 	retryAttempts := 0
 	for retryAttempts < 10 {
 		time.Sleep(time.Duration(emitter.frequency) * time.Second)
-
 		connection, err := net.Dial(emitter.connType, emitter.host+":"+emitter.port)
 		if err != nil {
 			fmt.Printf("Failed to establish dial connection (%d attempts). Retry in %d seconds \n", retryAttempts, emitter.retryTime)
