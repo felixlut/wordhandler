@@ -27,7 +27,6 @@ spec:
     spec:
       containers:
         - image: ghcr.io/felixlut/wordhandler/receiver:kubernetes
-          imagePullPolicy: IfNotPresent
           name: receiver
           ports:
             - containerPort: 8899

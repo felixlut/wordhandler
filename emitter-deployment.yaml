@@ -25,7 +25,6 @@ spec:
     spec:
       containers:
         - image: ghcr.io/felixlut/wordhandler/emitter:kubernetes
-          imagePullPolicy: IfNotPresent
           name: emitter
           resources: {}
       restartPolicy: Always
