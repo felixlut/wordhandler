@@ -9,6 +9,7 @@ metadata:
     io.kompose.service: receiver
   name: receiver
 spec:
+  type: NodePort
   ports:
     - name: "8899"
       port: 8899
