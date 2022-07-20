@@ -20,7 +20,7 @@ func setupListener(connectionType, host, port string) (net.Listener, error) {
 	if err != nil {
 		fmt.Println("Error listening:", err.Error())
 		fmt.Printf("url: %s", connectionURL)
-		os.Exit(1)
+		return nil, err
 	}
 	fmt.Println("Listening on " + connectionURL)
 	fmt.Println("Waiting for client...")
@@ -53,7 +53,7 @@ type wordReceiver struct {
 	wordStats                       map[string]wordStat
 	words                           []string
 	host, port, cliPort, serverType string
-	flushFrequency                  int
+	flushFrequency, retryTime       int
 }
 
 func (receiver *wordReceiver) handleCliCommand(connection net.Conn) {
@@ -90,8 +90,20 @@ func (receiver *wordReceiver) runCliServer(wg *sync.WaitGroup) {
 
 func (receiver *wordReceiver) runWordServer(wg *sync.WaitGroup) {
 	defer wg.Done()
-	server, err := setupListener(receiver.serverType, receiver.host, receiver.port)
-	check(err)
+	retryAttempts := 0
+	var server net.Listener
+	var err error
+	for server, err = setupListener(receiver.serverType, receiver.host, receiver.port); err != nil && retryAttempts < 10; {
+		fmt.Printf("Failed to establish listener connection (%d attempts). Retry in %d seconds \n", retryAttempts, receiver.retryTime)
+		fmt.Println(err)
+		time.Sleep(time.Duration(receiver.retryTime) * time.Second)
+		retryAttempts++
+	}
+	if retryAttempts >= 10 {
+		fmt.Println("Unable to establish connection, gives up...")
+		return
+	}
+
 	defer server.Close()
 
 	// Continously catch and handle the sent words
@@ -156,12 +168,13 @@ func main() {
 	}
 
 	receiver := wordReceiver{
-		wordStats: make(map[string]wordStat),
+		wordStats:      make(map[string]wordStat),
 		host:           host,
 		port:           "9988",
 		cliPort:        "8899",
 		serverType:     "tcp",
 		flushFrequency: 10,
+		retryTime:      10,
 	}
 
 	receiver.run()
