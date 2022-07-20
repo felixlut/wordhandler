@@ -162,8 +162,8 @@ func (receiver *wordReceiver) run() {
 func main() {
 	var host string
 	switch env := os.Getenv("DEPLOY_ENVIRONMENT"); env {
-	case "compose", "kubernetes":
-		host = "receiver"
+	// case "compose", "kubernetes":
+	// 	host = "receiver"
 	default:
 		host = "localhost"
 	}
