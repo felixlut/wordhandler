@@ -92,18 +92,19 @@ func (receiver *wordReceiver) runWordServer(wg *sync.WaitGroup) {
 	defer wg.Done()
 	retryAttempts := 0
 	var server net.Listener
-	var err error
-	for server, err = setupListener(receiver.serverType, receiver.host, receiver.port); err != nil && retryAttempts < 10; {
-		fmt.Printf("Failed to establish listener connection (%d attempts). Retry in %d seconds \n", retryAttempts, receiver.retryTime)
-		fmt.Println(err)
-		time.Sleep(time.Duration(receiver.retryTime) * time.Second)
-		retryAttempts++
-	}
-	if retryAttempts >= 10 {
-		fmt.Println("Unable to establish connection, gives up...")
-		return
-	}
+	for retryAttempts < 10 {
+		var err error
+		server, err = setupListener(receiver.serverType, receiver.host, receiver.port)
+		if err != nil {
+			retryAttempts++
+			fmt.Printf("Failed to establish listener connection (%d attempts). Retry in %d seconds \n", retryAttempts, receiver.retryTime)
+			fmt.Println(err)
+			time.Sleep(time.Duration(receiver.retryTime) * time.Second)
+			continue
+		}
 
+		break
+	}
 	defer server.Close()
 
 	// Continously catch and handle the sent words
