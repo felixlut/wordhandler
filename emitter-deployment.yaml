@@ -25,6 +25,7 @@ spec:
     spec:
       containers:
         - image: ghcr.io/felixlut/wordhandler/emitter:kubernetes
+          imagePullPolicy: Always
           env:
             - name: DEPLOY_ENVIRONMENT
               value: kubernetes
