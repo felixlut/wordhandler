@@ -59,4 +59,4 @@ jobs:
         with:
           context: ./${{ matrix.service }}
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_BASE }}:kubernetes
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_BASE }}/${{ matrix.service }}:kubernetes
