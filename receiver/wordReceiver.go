@@ -19,6 +19,7 @@ func setupListener(connectionType, host, port string) (net.Listener, error) {
 	listener, err := net.Listen(connectionType, connectionURL)
 	if err != nil {
 		fmt.Println("Error listening:", err.Error())
+		fmt.Printf("url: %s", connectionURL)
 		os.Exit(1)
 	}
 	fmt.Println("Listening on " + connectionURL)
