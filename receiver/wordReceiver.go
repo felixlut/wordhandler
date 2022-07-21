@@ -145,6 +145,8 @@ func (receiver *wordReceiver) runFlusher(wg *sync.WaitGroup) {
 			val.sinceFlush = 0
 			receiver.wordStats[key] = val
 		}
+
+		fmt.Println(receiver.wordStats["able"])
 	}
 }
 
