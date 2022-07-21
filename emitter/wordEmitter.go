@@ -73,7 +73,7 @@ func main() {
 	switch env := os.Getenv("DEPLOY_ENVIRONMENT"); env {
 	case "compose", "kubernetes":
 		// host = "receiver"
-		host = "172.17.0.3"
+		host = "172.17.0.4"
 	default:
 		host = "localhost"
 	}
