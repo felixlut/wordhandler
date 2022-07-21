@@ -1,4 +1,9 @@
-spec:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+spec: 
   template:
     spec:
       containers:
