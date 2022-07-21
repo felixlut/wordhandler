@@ -8,6 +8,8 @@ spec:
     spec:
       containers:
       - name: controller
+        args:
+        - --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services # See minikube's changes to the default nginx ingress controller: https://github.com/kubernetes/minikube/blob/6189742a25c37da7b44ca740eabbbd609f8938d1/deploy/addons/ingress/ingress-deploy.yaml.tmpl
         ports:
          - containerPort: 8899
            hostPort: 8899

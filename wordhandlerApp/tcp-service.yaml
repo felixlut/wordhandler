@@ -3,5 +3,9 @@ kind: ConfigMap
 metadata:
   name: tcp-services
   namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/component: controller
 data:
   "8899": default/receiver:8899
