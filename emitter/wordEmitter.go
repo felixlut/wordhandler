@@ -44,7 +44,7 @@ func (emitter wordEmitter) run() {
 			fmt.Printf("Failed to establish dial connection (%d attempts). Retry in %d seconds \n", retryAttempts, emitter.retryTime)
 			fmt.Println(err)
 			time.Sleep(time.Duration(emitter.retryTime) * time.Second)
-				retryAttempts++
+			retryAttempts++
 			continue
 		}
 		emitter.emitWord(connection)
