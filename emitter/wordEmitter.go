@@ -74,7 +74,7 @@ func main() {
 	case "compose", "kubernetes":
 		host = "receiver"
 	default:
-		host = "localhost"
+		host = ""
 	}
 
 	emitter := wordEmitter{

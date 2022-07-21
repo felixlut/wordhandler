@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net"
-	"os"
 	"sync"
 	"time"
 )
@@ -14,8 +13,7 @@ func check(e error) {
 	}
 }
 
-func setupListener(connectionType, host, port string) (net.Listener, error) {
-	// connectionURL := host + ":" + port
+func setupListener(connectionType, port string) (net.Listener, error) {
 	connectionURL := ":" + port
 	listener, err := net.Listen(connectionType, connectionURL)
 	if err != nil {
@@ -51,10 +49,10 @@ func (stat wordStat) String() string {
 }
 
 type wordReceiver struct {
-	wordStats                       map[string]wordStat
-	words                           []string
-	host, port, cliPort, serverType string
-	flushFrequency, retryTime       int
+	wordStats                 map[string]wordStat
+	words                     []string
+	port, cliPort, serverType string
+	flushFrequency, retryTime int
 }
 
 func (receiver *wordReceiver) handleCliCommand(connection net.Conn) {
@@ -77,7 +75,7 @@ func (receiver *wordReceiver) handleCliCommand(connection net.Conn) {
 func (receiver *wordReceiver) runCliServer(wg *sync.WaitGroup) {
 	defer wg.Done()
 
-	server, err := setupListener(receiver.serverType, receiver.host, receiver.cliPort)
+	server, err := setupListener(receiver.serverType, receiver.cliPort)
 	check(err)
 	defer server.Close()
 
@@ -95,7 +93,7 @@ func (receiver *wordReceiver) runWordServer(wg *sync.WaitGroup) {
 	var server net.Listener
 	for retryAttempts < 10 {
 		var err error
-		server, err = setupListener(receiver.serverType, receiver.host, receiver.port)
+		server, err = setupListener(receiver.serverType, receiver.port)
 		if err != nil {
 			retryAttempts++
 			fmt.Printf("Failed to establish listener connection (%d attempts). Retry in %d seconds \n", retryAttempts, receiver.retryTime)
@@ -163,17 +161,8 @@ func (receiver *wordReceiver) run() {
 }
 
 func main() {
-	var host string
-	switch env := os.Getenv("DEPLOY_ENVIRONMENT"); env {
-	// case "compose", "kubernetes":
-	// 	host = "receiver"
-	default:
-		host = "localhost"
-	}
-
 	receiver := wordReceiver{
 		wordStats:      make(map[string]wordStat),
-		host:           host,
 		port:           "9988",
 		cliPort:        "8899",
 		serverType:     "tcp",
