@@ -5,4 +5,4 @@ spec:
       - name: controller
         ports:
          - containerPort: 8899
-           hostPort: 88min
+           hostPort: 8899

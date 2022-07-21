@@ -74,6 +74,7 @@ func main() {
 	case "compose", "kubernetes":
 		host = "receiver"
 	default:
+		// Local Development
 		host = ""
 	}
 
