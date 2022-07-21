@@ -5,7 +5,7 @@ metadata:
     io.kompose.service: emitter
   name: emitter
 spec:
-  replicas: 2
+  replicas: 10
   selector:
     matchLabels:
       io.kompose.service: emitter
