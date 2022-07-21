@@ -7,9 +7,9 @@ resources:
 - receiver-deployment.yaml
 - receiver-service.yaml
 - regcred-secret.yaml
-- https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.0/deploy/static/provider/cloud/deploy.yaml
-- tcp-service.yaml # TODO: Should be a patch
-patches:
-- ingress-nginx-controller-patch.yaml
+# - https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.0/deploy/static/provider/cloud/deploy.yaml
+# - tcp-service.yaml # TODO: Should be a patch
+# patches:
+#- ingress-nginx-controller-patch.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
