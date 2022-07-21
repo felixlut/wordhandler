@@ -4,6 +4,4 @@ metadata:
   name: tcp-services
   namespace: ingress-nginx
 data:
-  8899: "default/receiver:8899"
-
-
+  "8899": default/receiver:8899
