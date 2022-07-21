@@ -8,8 +8,20 @@ spec:
     spec:
       containers:
       - name: controller
-        args:
-        - --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services # See minikube's changes to the default nginx ingress controller: https://github.com/kubernetes/minikube/blob/6189742a25c37da7b44ca740eabbbd609f8938d1/deploy/addons/ingress/ingress-deploy.yaml.tmpl
+        args: # Copy pasted from minikube since arrays cant be merged easily (see https://github.com/kubernetes-sigs/kustomize/issues/3265)
+        # TODO: Append tcp-services-configmap instead of brute force copy paste...
+        - /nginx-ingress-controller
+        - --election-id=ingress-controller-leader
+        - --controller-class=k8s.io/ingress-nginx
+        - --watch-ingress-without-class=true
+        - --ingress-class=nginx
+        - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller
+        - --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services # The only one we want
+        - --udp-services-configmap=$(POD_NAMESPACE)/udp-services
+        - --validating-webhook=:8443
+        - --validating-webhook-certificate=/usr/local/certificates/cert
+        - --validating-webhook-key=/usr/local/certificates/key
+        - --default-ssl-certificate={{ .CustomIngressCert }}
         ports:
          - containerPort: 8899
            hostPort: 8899
