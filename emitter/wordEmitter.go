@@ -32,13 +32,13 @@ func fileToWordList(fileName string) ([]string, error) {
 type wordEmitter struct {
 	wordList             []string
 	host, port, connType string
-	frequency, retryTime int
+	frequencyInMS, retryTime int
 }
 
 func (emitter wordEmitter) run() {
 	retryAttempts := 0
 	for retryAttempts < 10 {
-		time.Sleep(time.Duration(emitter.frequency) * time.Second)
+		time.Sleep(time.Duration(emitter.frequencyInMS) * time.Millisecond)
 		connection, err := net.Dial(emitter.connType, emitter.host+":"+emitter.port)
 		if err != nil {
 			fmt.Printf("Failed to establish dial connection (%d attempts). Retry in %d seconds \n", retryAttempts, emitter.retryTime)
@@ -84,7 +84,7 @@ func main() {
 		host:      host,
 		port:      "9988",
 		connType:  "tcp",
-		frequency: 1,
+		frequencyInMS: 100,
 		retryTime: 10,
 	}
 
