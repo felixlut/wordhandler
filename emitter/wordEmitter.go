@@ -63,7 +63,7 @@ func (emitter wordEmitter) emitWord(conn net.Conn) {
 }
 
 func main() {
-	wordList, err := fileToWordList("text_short.txt")
+	wordList, err := fileToWordList("text.txt")
 	if err != nil {
 		fmt.Println("Failed to read file to list of words")
 		panic(err)
