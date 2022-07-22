@@ -50,9 +50,23 @@ func (stat wordStat) String() string {
 
 type wordReceiver struct {
 	wordStats                 map[string]wordStat
+	mu                        sync.Mutex
 	words                     []string
 	port, cliPort, serverType string
 	flushFrequency, retryTime int
+}
+
+func (receiver *wordReceiver) Value(key string) (wordStat, bool) {
+	receiver.mu.Lock()
+	defer receiver.mu.Unlock()
+	value, ok := receiver.wordStats[key]
+	return value, ok
+}
+
+func (receiver *wordReceiver) PutValue(key string, newValue wordStat) {
+	receiver.mu.Lock()
+	receiver.wordStats[key] = newValue
+	receiver.mu.Unlock()
 }
 
 func (receiver *wordReceiver) handleCliCommand(connection net.Conn) {
@@ -60,7 +74,7 @@ func (receiver *wordReceiver) handleCliCommand(connection net.Conn) {
 	check(err)
 
 	var response string
-	if stat, ok := receiver.wordStats[word]; ok {
+	if stat, ok := receiver.Value(word); ok {
 		response = stat.String()
 	} else {
 		response = fmt.Sprintf("Word %s has not been seen", word)
@@ -118,19 +132,20 @@ func (receiver *wordReceiver) catchWord(connection net.Conn) {
 	word, err := readFromConnection(connection)
 	check(err)
 
-	if val, ok := receiver.wordStats[word]; ok {
+	if val, ok := receiver.Value(word); ok {
 		val.lastSeen = time.Now()
 		val.timesSeen++
 		val.sinceFlush++
-		receiver.wordStats[word] = val
+		receiver.PutValue(word, val)
 	} else {
-		receiver.wordStats[word] = wordStat{
+		val = wordStat{
 			word:       word,
 			lastSeen:   time.Now(),
 			firstSeen:  time.Now(),
 			timesSeen:  1,
 			sinceFlush: 1,
 		}
+		receiver.PutValue(word, val)
 		receiver.words = append(receiver.words, word)
 	}
 }
