@@ -19,8 +19,8 @@ spec:
         - image: ghcr.io/felixlut/wordhandler/emitter:kubernetes
           imagePullPolicy: Always
           env:
-            - name: DEPLOY_ENVIRONMENT
-              value: kubernetes
+            - name: TARGET_HOST
+              value: receiver
           name: emitter
           resources: {}
       restartPolicy: Always

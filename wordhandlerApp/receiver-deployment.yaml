@@ -18,9 +18,6 @@ spec:
       containers:
         - image: ghcr.io/felixlut/wordhandler/receiver:kubernetes
           imagePullPolicy: Always
-          env:
-            - name: DEPLOY_ENVIRONMENT
-              value: kubernetes
           name: receiver
           ports:
             - containerPort: 8899
