@@ -12,3 +12,7 @@ Start the reciever and emitter by running `go build .` and invoking the compiled
 Run the application by running `docker-compose up`
 
 ### Kubernetes
+
+
+## Cli
+The project also contains a cli for interacting with the receiver. Currently only the `get word` command is available, which returns the stored statistics for the word (first seen, ...). 
