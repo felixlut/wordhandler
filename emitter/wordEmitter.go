@@ -10,6 +10,13 @@ import (
 	"time"
 )
 
+func getEnv(key, fallback string) string {
+    if value, ok := os.LookupEnv(key); ok {
+        return value
+    }
+    return fallback
+}
+
 func fileToWordList(fileName string) ([]string, error) {
 	file, err := os.Open(fileName)
 	if err != nil {
@@ -36,10 +43,12 @@ type wordEmitter struct {
 }
 
 func (emitter wordEmitter) run() {
+	target_host := emitter.host+":"+emitter.port
+	fmt.Printf("Connecting to %s \n", target_host)
 	retryAttempts := 0
 	for retryAttempts < 10 {
 		time.Sleep(time.Duration(emitter.frequencyInMS) * time.Millisecond)
-		connection, err := net.Dial(emitter.connType, emitter.host+":"+emitter.port)
+		connection, err := net.Dial(emitter.connType, target_host)
 		if err != nil {
 			fmt.Printf("Failed to establish dial connection (%d attempts). Retry in %d seconds \n", retryAttempts, emitter.retryTime)
 			fmt.Println(err)
@@ -70,18 +79,9 @@ func main() {
 		panic(err)
 	}
 
-	var host string
-	switch env := os.Getenv("DEPLOY_ENVIRONMENT"); env {
-	case "compose", "kubernetes":
-		host = "receiver"
-	default:
-		// Local Development
-		host = ""
-	}
-
 	emitter := wordEmitter{
 		wordList:  wordList,
-		host:      host,
+		host:      getEnv("TARGET_HOST", ""),
 		port:      "9988",
 		connType:  "tcp",
 		frequencyInMS: 100,
