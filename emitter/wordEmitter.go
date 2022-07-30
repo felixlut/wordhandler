@@ -54,6 +54,7 @@ func (emitter wordEmitter) run() {
 			fmt.Println(err)
 			time.Sleep(time.Duration(emitter.retryTime) * time.Second)
 			retryAttempts++
+			
 			continue
 		}
 		emitter.emitWord(connection)
