@@ -6,6 +6,7 @@ resources:
 - emitter
 - receiver
 - cli
+- pr-generator.yaml
 
 images:
 - name: emitter
@@ -17,3 +18,5 @@ images:
 - name: cli
   newName: ghcr.io/felixlut/wordhandler/cli
   newTag: latest
+
+namespace: wordhandler
