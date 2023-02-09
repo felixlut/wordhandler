@@ -5,7 +5,7 @@ metadata:
 spec:
   generators:
   - pullRequest:
-      requeueAfterSeconds: 30
+      requeueAfterSeconds: 300
       github:
         # The GitHub organization or user.
         owner: felixlut
