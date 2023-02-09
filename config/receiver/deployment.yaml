@@ -16,7 +16,7 @@ spec:
         io.kompose.service: receiver
     spec:
       containers:
-        - image: ghcr.io/felixlut/wordhandler/receiver:kubernetes
+        - image: receiver
           imagePullPolicy: Always
           name: receiver
           ports:
