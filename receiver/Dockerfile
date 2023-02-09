@@ -1,4 +1,4 @@
-FROM golang:1.18-alpine
+FROM golang:1.18-alpine AS builder
 
 WORKDIR /usr/src/app
 
@@ -8,6 +8,12 @@ WORKDIR /usr/src/app
 
 COPY . .
 RUN go build -v -o /usr/local/bin/receiver .
+
+
+FROM alpine:latest  
+RUN apk --no-cache add ca-certificates
+WORKDIR /root/
+COPY --from=builder /usr/local/bin/receiver /usr/local/bin/receiver
 
 EXPOSE 9988/tcp
 EXPOSE 8899/tcp
