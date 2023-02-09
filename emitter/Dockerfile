@@ -13,6 +13,7 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 COPY --from=builder /usr/local/bin/emitter /usr/local/bin/emitter
+COPY --from=builder /usr/src/app/text*.txt /root/
 
 EXPOSE 9988/tcp
 
