@@ -12,8 +12,6 @@ spec:
         # The Github repository
         repo: wordhandler
         # Labels is used to filter the PRs that you want to target. (optional)
-        labels:
-        - preview
         tokenRef:
           key: token
           secretName: gh-token
