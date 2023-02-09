@@ -14,6 +14,9 @@ spec:
         # Labels is used to filter the PRs that you want to target. (optional)
         labels:
         - preview
+        tokenRef:
+          key: token
+          secretName: gh-token
   template:
     metadata:
       name: 'wordhandler-{{branch}}-{{number}}'
@@ -25,4 +28,7 @@ spec:
       project: "wordhandler"
       destination:
         server: https://kubernetes.default.svc
-        namespace: default
+        namespace: wordhandler-{{branch}}-{{number}}
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
