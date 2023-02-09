@@ -18,5 +18,3 @@ images:
 - name: cli
   newName: ghcr.io/felixlut/wordhandler/cli
   newTag: latest
-
-namespace: wordhandler
