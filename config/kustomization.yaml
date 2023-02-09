@@ -13,3 +13,6 @@ images:
 - name: receiver
   newName: ghcr.io/felixlut/wordhandler/receiver
   newTag: latest
+- name: cli
+  newName: ghcr.io/felixlut/wordhandler/cli
+  newTag: latest

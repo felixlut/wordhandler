@@ -12,10 +12,9 @@ import (
 
 	"github.com/spf13/cobra"
 )
-
-const (
-	HOST = ""
-	PORT = "8899"
+var (
+	HOST = os.Getenv("TARGET_HOST")
+	PORT = os.Getenv("TARGET_PORT")
 	TYPE = "tcp"
 )
 

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: cli
+  name: cli
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: cli
+  template:
+    metadata:
+      labels:
+        io.kompose.service: cli
+    spec:
+      containers:
+        - image: cli 
+          imagePullPolicy: Always
+          env:
+            - name: TARGET_HOST
+              value: receiver
+            - name: TARGET_PORT
+              value: "8899"
+          name: cli
+          resources: {}
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: regcred
+status: {}

@@ -21,7 +21,7 @@ jobs:
   build:
     strategy:
       matrix:
-        service: ["emitter", receiver]
+        service: [emitter, receiver, cli]
 
     runs-on: ubuntu-latest
     permissions:
