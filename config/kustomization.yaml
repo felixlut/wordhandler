@@ -11,7 +11,7 @@ resources:
 images:
 - name: emitter
   newName: ghcr.io/felixlut/wordhandler/emitter
-  newTag: latest
+  newTag: v1.36
 - name: receiver
   newName: ghcr.io/felixlut/wordhandler/receiver
   newTag: latest
