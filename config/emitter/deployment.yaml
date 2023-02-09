@@ -5,11 +5,10 @@ metadata:
     io.kompose.service: emitter
   name: emitter
 spec:
-  replicas: 10
+  replicas: 5
   selector:
     matchLabels:
       io.kompose.service: emitter
-  strategy: {}
   template:
     metadata:
       labels:
