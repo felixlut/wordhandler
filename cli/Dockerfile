@@ -14,4 +14,4 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 COPY --from=builder /usr/local/bin/word-cli /usr/local/bin/word-cli
 
-CMD ["exec /bin/sh -c 'trap : TERM INT; sleep infinity & wait'"]
+CMD ["sleep 1h"]
