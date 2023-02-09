@@ -6,8 +6,10 @@ resources:
 - emitter
 - receiver
 
-
-# - https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.0/deploy/static/provider/cloud/deploy.yaml
-# - tcp-service.yaml # TODO: Should be a patch
-# patches:
-# - ingress-nginx-controller-patch.yaml
+images:
+- name: emitter
+  newName: ghcr.io/felixlut/wordhandler/emitter
+  newTag: latest
+- name: receiver
+  newName: ghcr.io/felixlut/wordhandler/receiver
+  newTag: latest

@@ -15,7 +15,7 @@ spec:
         io.kompose.service: emitter
     spec:
       containers:
-        - image: ghcr.io/felixlut/wordhandler/emitter:kubernetes
+        - image: emitter 
           imagePullPolicy: Always
           env:
             - name: TARGET_HOST
